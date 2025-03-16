@@ -80,7 +80,7 @@ public class EmployeeRepository {
 	}
 
 	public List<Employee> findByName(String name) {
-		String sql = "SELECT * FROM EmployeeSB WHERE name LIKE ?";
+		String sql = "SELECT * FROM EmployeeSB WHERE name like ?";
 		return jdbcTemplate.query(sql, new EmployeeRowMapper(), "%" + name + "%");
 	}
 
