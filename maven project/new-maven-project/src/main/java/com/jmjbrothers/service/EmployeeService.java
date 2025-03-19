@@ -1,12 +1,12 @@
-package com.jmjbrothers.employee_crud.service;
+package com.jmjbrothers.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.jmjbrothers.employee_crud.model.Employee;
-import com.jmjbrothers.employee_crud.repository.EmployeeRepository;
+import com.jmjbrothers.model.Employee;
+import com.jmjbrothers.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
