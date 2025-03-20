@@ -3,6 +3,7 @@ package com.jmjbrothers.first_spring.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jmjbrothers.first_spring.model.Student;
 import com.jmjbrothers.first_spring.service.StudentService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping(value = "/student")
 public class StudentController {
 
+	@Value("${custom.env}")
+	private String envString;
 	private final StudentService service;
 
 	public StudentController(StudentService service) {
@@ -71,6 +77,12 @@ public class StudentController {
 		}
 
 		return service.saveStudent(st);
+	}
+
+	@GetMapping("/hello")
+	public String hello() {
+
+		return "Hello Environment " + envString;
 	}
 
 }

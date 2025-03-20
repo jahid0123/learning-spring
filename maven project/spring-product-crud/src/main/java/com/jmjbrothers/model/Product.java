@@ -1,18 +1,11 @@
 package com.jmjbrothers.model;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class Product {
 	private Long id;
 	private String name;
 	private double price;
 	private int quantity;
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate purchaseDate;
-	private LocalDate sellDate;
-	private double amount;
+	private String model;
 
 	// Getters and Setters
 	public Long getId() {
@@ -47,27 +40,12 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public LocalDate getPurchaseDate() {
-		return purchaseDate;
+	public String getModel() {
+		return model;
 	}
 
-	public void setPurchaseDate(LocalDate purchaseDate) {
-		this.purchaseDate = purchaseDate;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
-	public LocalDate getSellDate() {
-		return sellDate;
-	}
-
-	public void setSellDate(LocalDate sellDate) {
-		this.sellDate = sellDate;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
 }

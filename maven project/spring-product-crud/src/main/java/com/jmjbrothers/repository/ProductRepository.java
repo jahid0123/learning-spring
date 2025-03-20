@@ -32,9 +32,8 @@ public class ProductRepository {
 			product.setName(rs.getString("name"));
 			product.setPrice(rs.getDouble("price"));
 			product.setQuantity(rs.getInt("quantity"));
-			product.setPurchaseDate(rs.getDate("purchase_date").toLocalDate());
-			product.setSellDate(rs.getDate("sell_date").toLocalDate());
-			product.setAmount(rs.getDouble("amount"));
+			product.setModel(rs.getString("model"));
+
 			return product;
 		}
 	}
@@ -51,14 +50,12 @@ public class ProductRepository {
 	}
 
 	public void save(Product product) {
-		String sql = "INSERT INTO product (name, price, quantity, purchase_date, sell_date, amount) VALUES (?, ?, ?, ?, ?, ?)";
-		jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getQuantity(),
-				product.getPurchaseDate(), product.getSellDate(), product.getAmount());
+		String sql = "INSERT INTO product (name, price, quantity, model) VALUES (?, ?, ?, ?)";
+		jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getQuantity(), product.getModel());
 	}
 
 	public Product saveAndRetrieve(Product product) {
-		String sql = "INSERT INTO product (name, price, quantity, purchase_date, sell_date, amount) "
-				+ "VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO product (name, price, quantity, model) " + "VALUES (?, ?, ?, ?)";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -67,9 +64,8 @@ public class ProductRepository {
 			ps.setString(1, product.getName());
 			ps.setDouble(2, product.getPrice());
 			ps.setInt(3, product.getQuantity());
-			ps.setObject(4, product.getPurchaseDate());
-			ps.setObject(5, product.getSellDate());
-			ps.setDouble(6, product.getAmount());
+			ps.setString(4, product.getModel());
+
 			return ps;
 		}, keyHolder);
 
@@ -84,16 +80,16 @@ public class ProductRepository {
 	}
 
 	public void update(Product product) {
-		String sql = "UPDATE product SET name = ?, price = ?, quantity = ?, purchase_date = ?, sell_date = ?, amount = ? WHERE id = ?";
-		jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getQuantity(),
-				product.getPurchaseDate(), product.getSellDate(), product.getAmount(), product.getId());
+		String sql = "UPDATE product SET name = ?, price = ?, quantity = ?, model = ? WHERE id = ?";
+		jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getQuantity(), product.getModel(),
+				product.getId());
 	}
 
 	public Product updateAndRetrieve(Product product) {
-		String sql = "UPDATE product SET name = ?, price = ?, quantity = ?, purchase_date = ?, sell_date = ?, amount = ? WHERE id = ?";
+		String sql = "UPDATE product SET name = ?, price = ?, quantity = ?, model = ? WHERE id = ?";
 
 		int rowsAffected = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getQuantity(),
-				product.getPurchaseDate(), product.getSellDate(), product.getAmount(), product.getId());
+				product.getModel(), product.getId());
 
 		if (rowsAffected > 0) {
 			return findById(product.getId()); // Retrieve updated product
@@ -118,17 +114,9 @@ public class ProductRepository {
 			sql.append("quantity = ?, ");
 			params.add(product.getQuantity());
 		}
-		if (product.getPurchaseDate() != null) {
-			sql.append("purchase_date = ?, ");
-			params.add(product.getPurchaseDate());
-		}
-		if (product.getSellDate() != null) {
-			sql.append("sell_date = ?, ");
-			params.add(product.getSellDate());
-		}
-		if (product.getAmount() != 0) {
-			sql.append("amount = ?, ");
-			params.add(product.getAmount());
+		if (product.getModel() != null) {
+			sql.append("model = ?, ");
+			params.add(product.getModel());
 		}
 
 		// Remove the last comma and space
@@ -154,4 +142,5 @@ public class ProductRepository {
 		String sql = "DELETE FROM product WHERE id = ?";
 		jdbcTemplate.update(sql, id);
 	}
+
 }
