@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,10 @@ public class Book {
 
 	@Column(nullable = false, length = 100)
 	private String publisher;
+
+	@OneToOne
+	@JoinColumn(name = "clazz", referencedColumnName = "id")
+	private StudentClass clazz;
 
 	@ManyToOne
 	@JoinColumn(name = "sutdent", nullable = false)
