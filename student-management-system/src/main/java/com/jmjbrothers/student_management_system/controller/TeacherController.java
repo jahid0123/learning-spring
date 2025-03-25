@@ -2,6 +2,8 @@ package com.jmjbrothers.student_management_system.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,7 @@ import com.jmjbrothers.student_management_system.model.Teacher;
 import com.jmjbrothers.student_management_system.service.TeacherService;
 
 @RestController
-@RequestMapping(name = "/teachers")
+@RequestMapping(value = "/teachers")
 public class TeacherController {
 
 	private final TeacherService teacherService;
@@ -25,20 +27,21 @@ public class TeacherController {
 	}
 
 	@PostMapping
-	public Teacher saveTeacher(@RequestBody Teacher teacher) {
-
-		return teacherService.saveTeacher(teacher);
+	public ResponseEntity<?> saveTeacher(@RequestBody Teacher teacher) {
+		Teacher savedTeacher = teacherService.saveTeacher(teacher);
+		return new ResponseEntity<>(savedTeacher, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
 	public Teacher getTeacher(@PathVariable Integer id) {
-
 		return teacherService.getTeacher(id);
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteTeacher(@PathVariable Integer id) {
+	public ResponseEntity<?> deleteTeacher(@PathVariable Integer id) {
 		teacherService.deleteTeacher(id);
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping

@@ -15,7 +15,7 @@ import com.jmjbrothers.student_management_system.model.Book;
 import com.jmjbrothers.student_management_system.service.BookService;
 
 @RestController
-@RequestMapping(name = "/books")
+@RequestMapping(value = "/books")
 public class BookController {
 
 	private final BookService bookService;
