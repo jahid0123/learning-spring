@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jmjbrothers.student_management_system.dao.ClassTeacherProjection;
 import com.jmjbrothers.student_management_system.dto.StudentClassDTO;
 import com.jmjbrothers.student_management_system.model.StudentClass;
 import com.jmjbrothers.student_management_system.service.StudentClassService;
@@ -59,6 +60,11 @@ public class StudentClassController {
 	public StudentClass updateById(@PathVariable Integer id, @RequestBody StudentClassDTO studentClass) {
 		StudentClass updaClass = classService.updateById(id, studentClass);
 		return updaClass;
+	}
+
+	@GetMapping("/getAllClassTeacher")
+	public List<ClassTeacherProjection> getAllClassTeachers() {
+		return classService.getAllClassTeachers();
 	}
 
 }

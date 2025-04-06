@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.jmjbrothers.student_management_system.dao.ClassTeacherProjection;
 import com.jmjbrothers.student_management_system.dto.StudentClassDTO;
 import com.jmjbrothers.student_management_system.model.StudentClass;
 import com.jmjbrothers.student_management_system.model.Teacher;
@@ -85,6 +86,11 @@ public class StudentClassService {
 	public StudentClass getStudentClass(Integer id) {
 		// TODO Auto-generated method stub
 		return classRepository.findById(id).orElse(null);
+	}
+
+	public List<ClassTeacherProjection> getAllClassTeachers() {
+		// TODO Auto-generated method stub
+		return classRepository.getAllClassTeachers();
 	}
 
 }
