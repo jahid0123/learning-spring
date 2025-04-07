@@ -90,7 +90,7 @@ public class StudentClassService {
 
 	public List<ClassTeacherProjection> getAllClassTeachers() {
 		// TODO Auto-generated method stub
-		return classRepository.getAllClassTeachers();
+		return classRepository.findAllActiveUsersNative();
 	}
 
 }

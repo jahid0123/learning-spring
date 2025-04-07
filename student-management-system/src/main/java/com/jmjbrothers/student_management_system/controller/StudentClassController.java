@@ -18,8 +18,12 @@ import com.jmjbrothers.student_management_system.dto.StudentClassDTO;
 import com.jmjbrothers.student_management_system.model.StudentClass;
 import com.jmjbrothers.student_management_system.service.StudentClassService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "/studentclass")
+@Tag(name = "Student Class Controller", description = "Api for Student Class Management")
+
 public class StudentClassController {
 
 	private final StudentClassService classService;

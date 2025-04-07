@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jmjbrothers.student_management_system.model.Teacher;
 import com.jmjbrothers.student_management_system.service.TeacherService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "/teachers")
+@Tag(name = "Teacher Controller", description = "Api for Teacher Management")
 public class TeacherController {
 
 	private final TeacherService teacherService;

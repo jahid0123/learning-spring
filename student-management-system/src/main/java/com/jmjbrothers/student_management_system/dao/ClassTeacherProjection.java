@@ -6,7 +6,8 @@ public interface ClassTeacherProjection {
 
 	String getTeacherName();
 
+	String getEmail();
+
 	Integer getRoomNumber();
 
-	String getEmail();
 }

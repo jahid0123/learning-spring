@@ -17,8 +17,11 @@ import com.jmjbrothers.student_management_system.dto.BookDTO;
 import com.jmjbrothers.student_management_system.model.Book;
 import com.jmjbrothers.student_management_system.service.BookService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "/books")
+@Tag(name = "Book Controller", description = "Api for Book Management")
 public class BookController {
 
 	private final BookService bookService;
