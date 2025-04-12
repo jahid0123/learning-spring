@@ -117,4 +117,5 @@ public class AdvancedSecurityController {
 		config.put("auditEnabled", "true");
 		return config;
 	}
+
 }
