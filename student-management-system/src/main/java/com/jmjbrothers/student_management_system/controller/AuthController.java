@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -49,7 +51,7 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 		try {
-			User user = new User(registerRequest.email(), registerRequest.password(), Role.STUDENT, // Default role for
+			User user = new User(registerRequest.email(), registerRequest.password(), registerRequest.role(), // Default role for
 																									// registration
 					registerRequest.firstName(), registerRequest.lastName(), registerRequest.phoneNumber());
 
@@ -63,6 +65,8 @@ public class AuthController {
 			userResponse.setFirstName(savedUser.getFirstName());
 			userResponse.setLastName(savedUser.getLastName());
 			userResponse.setPhoneNumber(savedUser.getPhoneNumber());
+			userResponse.setCreatedAt(savedUser.getCreatedAt());
+			userResponse.setUpdatedAt(savedUser.getUpdatedAt());
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
 		} catch (RuntimeException e) {
