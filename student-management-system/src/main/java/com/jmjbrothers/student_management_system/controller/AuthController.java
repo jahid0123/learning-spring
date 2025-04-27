@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jmjbrothers.student_management_system.config.JwtTokenProvider;
-import com.jmjbrothers.student_management_system.constants.Role;
 import com.jmjbrothers.student_management_system.dto.RegisterRequest;
 import com.jmjbrothers.student_management_system.dto.UserResponse;
 import com.jmjbrothers.student_management_system.model.CustomUserDetails;
@@ -51,8 +50,10 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 		try {
-			User user = new User(registerRequest.email(), registerRequest.password(), registerRequest.role(), // Default role for
-																									// registration
+			User user = new User(registerRequest.email(), registerRequest.password(), registerRequest.role(), // Default
+																												// role
+																												// for
+					// registration
 					registerRequest.firstName(), registerRequest.lastName(), registerRequest.phoneNumber());
 
 			User savedUser = userService.createUser(user);
@@ -90,7 +91,7 @@ public class AuthController {
 
 			// Create response with token and user info
 			Map<String, Object> responseData = new HashMap<>();
-			responseData.put("token", jwt);
+			responseData.put("access_token", jwt);
 			responseData.put("tokenType", "Bearer");
 
 			// Add user information
@@ -100,6 +101,7 @@ public class AuthController {
 			userData.put("role", user.getRole());
 			userData.put("firstName", user.getFirstName());
 			userData.put("lastName", user.getLastName());
+			userData.put("phoneNumber", user.getPhoneNumber());
 
 			responseData.put("user", userData);
 
