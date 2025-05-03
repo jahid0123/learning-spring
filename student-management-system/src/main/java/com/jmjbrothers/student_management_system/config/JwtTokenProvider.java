@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -26,29 +26,48 @@ public class JwtTokenProvider {
 
 	private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-	@Value("${app.jwt.expiration}")
-	private int jwtExpirationMs;
 
+
+	//Generate Token 
 	public String createToken(Authentication authentication) {
 		CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 
-		Date now = new Date();
-		Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+	
 
-		return Jwts.builder().setSubject(userPrincipal.getUsername()).claim("id", userPrincipal.getId())
-				.claim("email", userPrincipal.getEmail()).claim("role", userPrincipal.getRole().name()).setIssuedAt(now)
-				.setExpiration(expiryDate).signWith(secretKey).compact();
+		return Jwts
+				.builder()
+				.setSubject(userPrincipal.getUsername())
+				.claim("id", userPrincipal.getId())
+				.claim("email", userPrincipal.getEmail())
+				.claim("role", userPrincipal.getRole().name())
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + 24*60*60*1000))
+				.signWith(secretKey)
+				.compact();
 	}
-
+	
+	
+	//Extract username From Token----------
 	public String getUsernameFromToken(String token) {
-		Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+		Claims claims = Jwts
+				.parserBuilder()
+				.setSigningKey(secretKey)
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
 
 		return claims.getSubject();
 	}
-
+	
+	
+	//Check token is valid or not
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+			Jwts.parserBuilder()
+			.setSigningKey(secretKey)
+			.build()
+			.parseClaimsJws(token);
+			
 			return true;
 		} catch (SecurityException ex) {
 			log.error("Invalid JWT signature");
@@ -64,7 +83,13 @@ public class JwtTokenProvider {
 		return false;
 	}
 
+	//Extract All Claims From Token....
 	public Claims getClaimsFromToken(String token) {
-		return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+		return Jwts
+				.parserBuilder()
+				.setSigningKey(secretKey)
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
 	}
 }

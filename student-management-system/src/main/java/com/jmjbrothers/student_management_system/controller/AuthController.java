@@ -51,11 +51,13 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 		try {
-			User user = new User(registerRequest.email(), registerRequest.password(), registerRequest.role(), // Default
-																												// role
-																												// for
-					// registration
-					registerRequest.firstName(), registerRequest.lastName(), registerRequest.phoneNumber());
+			User user = new User(
+					registerRequest.email(), 
+					registerRequest.password(), 
+					registerRequest.role(), // Default
+					registerRequest.firstName(), 
+					registerRequest.lastName(), 
+					registerRequest.phoneNumber());
 
 			User savedUser = userService.createUser(user);
 
@@ -77,11 +79,16 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<?> authenticateUser(HttpServletRequest request, HttpServletResponse response,
+	public ResponseEntity<?> authenticateUser(
+			HttpServletRequest request, 
+			HttpServletResponse response,
 			@Valid @RequestBody LoginRequest loginRequest) {
+		
 		try {
 			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
+					new UsernamePasswordAuthenticationToken(
+							loginRequest.email(), 
+							loginRequest.password()));
 
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = jwtTokenProvider.createToken(authentication);
@@ -95,14 +102,14 @@ public class AuthController {
 			responseData.put("access_token", jwt);
 			responseData.put("tokenType", "Bearer");
 
-			// Add user information
-			Map<String, Object> userData = new HashMap<>();
-			userData.put("id", user.getId());
-			userData.put("email", user.getEmail());
-			userData.put("role", user.getRole());
-			userData.put("firstName", user.getFirstName());
-			userData.put("lastName", user.getLastName());
-			userData.put("phoneNumber", user.getPhoneNumber());
+				// Add user information
+				Map<String, Object> userData = new HashMap<>();
+				userData.put("id", user.getId());
+				userData.put("email", user.getEmail());
+				userData.put("role", user.getRole());
+				userData.put("firstName", user.getFirstName());
+				userData.put("lastName", user.getLastName());
+				userData.put("phoneNumber", user.getPhoneNumber());
 
 			responseData.put("user", userData);
 

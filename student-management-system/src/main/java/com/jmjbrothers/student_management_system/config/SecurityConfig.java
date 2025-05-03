@@ -33,11 +33,13 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtTokenProvider jwtTokenProvider)
 			throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF for REST APIs, (Method Reference)
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll()
-						.requestMatchers("/api/public/**").permitAll().requestMatchers("/api/user/**")
-						.hasAnyRole("REGULAR_USER", "MANAGER", "ADMIN").requestMatchers("/api/manager/**")
-						.hasAnyRole("MANAGER", "ADMIN").requestMatchers("/api/admin/**").hasRole("ADMIN").anyRequest()
-						.authenticated())
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/api/auth/**").permitAll()
+						.requestMatchers("/api/public/**").permitAll()
+						.requestMatchers("/api/user/**").hasAnyRole("REGULAR_USER", "MANAGER", "ADMIN")
+						.requestMatchers("/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
+						.requestMatchers("/api/admin/**").hasRole("ADMIN")
+						.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -51,8 +53,8 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-		return authConfig.getAuthenticationManager();
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 }
