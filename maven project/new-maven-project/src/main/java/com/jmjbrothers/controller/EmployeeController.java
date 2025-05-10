@@ -1,4 +1,4 @@
-package com.jmjbrothers.employee_crud.controller;
+package com.jmjbrothers.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jmjbrothers.employee_crud.model.Employee;
-import com.jmjbrothers.employee_crud.service.EmployeeService;
+import com.jmjbrothers.model.Employee;
+import com.jmjbrothers.service.EmployeeService;
 
 @RestController
 @RequestMapping(value = "/employee")

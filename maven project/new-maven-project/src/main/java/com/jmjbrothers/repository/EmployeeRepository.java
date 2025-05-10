@@ -1,4 +1,4 @@
-package com.jmjbrothers.employee_crud.repository;
+package com.jmjbrothers.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import com.jmjbrothers.employee_crud.model.Employee;
+import com.jmjbrothers.model.Employee;
 
 @Repository
 public class EmployeeRepository {
